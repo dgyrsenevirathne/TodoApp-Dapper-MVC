@@ -2,6 +2,99 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="container-fluid px-0">
+    <!-- Hero Section -->
+    <div class="hero-section bg-primary text-white py-5">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4 animate__animated animate__fadeInDown">Welcome to SmartTask</h1>
+            <p class="lead mb-4 animate__animated animate__fadeInUp">Your Personal Productivity Companion</p>
+            <a asp-controller="Todo" asp-action="Index" class="btn btn-light btn-lg rounded-pill px-5 py-3 animate__animated animate__pulse animate__infinite">
+                Get Started <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card shadow-lg p-4 rounded-3 h-100">
+                    <div class="icon-wrapper bg-info text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-tasks fa-3x"></i>
+                    </div>
+                    <h3 class="mb-3">Manage Tasks</h3>
+                    <p class="text-muted">Easily create, edit, and organize your daily tasks with intuitive controls.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card shadow-lg p-4 rounded-3 h-100">
+                    <div class="icon-wrapper bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-check-circle fa-3x"></i>
+                    </div>
+                    <h3 class="mb-3">Track Progress</h3>
+                    <p class="text-muted">Monitor your productivity with visual progress indicators and completion tracking.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card shadow-lg p-4 rounded-3 h-100">
+                    <div class="icon-wrapper bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-bell fa-3x"></i>
+                    </div>
+                    <h3 class="mb-3">Stay Alert</h3>
+                    <p class="text-muted">Never miss important deadlines with our smart reminder system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-light py-5">
+        <div class="container text-center">
+            <h2 class="mb-4">Start Organizing Today!</h2>
+            <p class="lead mb-4">Join thousands of productive individuals managing their tasks efficiently</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a asp-controller="Todo" asp-action="Create" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-plus me-2"></i>Add New Task
+                </a>
+                <a asp-controller="Todo" asp-action="Index" class="btn btn-outline-primary btn-lg px-5">
+                    <i class="fas fa-list me-2"></i>View Tasks
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+    }
+
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+
+    .icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .icon-wrapper {
+        transform: rotate(360deg);
+    }
+</style>
+
+<!-- Add Animate.css for animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
