@@ -1,41 +1,120 @@
 ﻿@model IEnumerable<Todo>
 
-<h2>Todo List</h2>
+@{
+    ViewData["Title"] = "Todo List";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Created At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var todo in Model)
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Your Todo List</h2>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus-circle me-2"></i>Add New Todo
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th style="width: 50px;" class="text-center">Status</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th><i class="fas fa-calendar-day me-2"></i>Due Date</th>
+                            <th><i class="fas fa-exclamation-circle me-2"></i>Priority</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var todo in Model)
+                        {
+                            <tr class="@(todo.IsCompleted ? "table-success" : "")">
+                                <td class="text-center align-middle">
+                                    <form asp-action="ToggleComplete" method="post">
+                                        <input type="hidden" name="id" value="@todo.Id" />
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   role="switch" @(todo.IsCompleted ? "checked" : "")
+                                                   onchange="this.form.submit()" style="transform: scale(1.5);">
+                                        </div>
+                                    </form>
+                                </td>
+                                <td class="align-middle">@todo.Title</td>
+                                <td class="align-middle">@todo.Description</td>
+                                <td class="align-middle">
+                                    @if (todo.DueDate.HasValue)
+                                    {
+                                        <span class="@(todo.DueDate < DateTime.Now && !todo.IsCompleted ? "text-danger fw-bold" : "")">
+                                            @todo.DueDate.Value.ToString("d MMM yyyy")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </td>
+                                <td class="align-middle">
+                                    <span class="badge @GetPriorityBadgeClass(todo.Priority)">
+                                        @todo.Priority
+                                    </span>
+                                </td>
+                                <td class="align-middle">@todo.CreatedAt.ToString("g")</td>
+                                <td class="align-middle">
+                                    <div class="d-flex gap-2">
+                                        <a asp-action="Edit" asp-route-id="@todo.Id"
+                                           class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit me-1"></i>Edit
+                                        </a>
+                                        <form asp-action="Delete" method="post">
+                                            <input type="hidden" name="id" value="@todo.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash me-1"></i>Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetPriorityBadgeClass(string priority)
+    {
+        return priority switch
         {
-            <tr>
-                <td>
-                    <form asp-action="ToggleComplete" method="post">
-                        <input type="hidden" name="id" value="@todo.Id" />
-                        <input type="checkbox" @(todo.IsCompleted ? "checked" : "")
-                               onchange="this.form.submit()" />
-                    </form>
-                </td>
-                <td>@todo.Title</td>
-                <td>@todo.Description</td>
-                <td>@todo.CreatedAt.ToString("g")</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@todo.Id" class="btn btn-warning">Edit</a>
-                    <form asp-action="Delete" method="post" style="display:inline">
-                        <input type="hidden" name="id" value="@todo.Id" />
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            "High" => "bg-danger",
+            "Medium" => "bg-warning text-dark",
+            "Low" => "bg-success",
+            _ => "bg-secondary"
+        };
+    }
+}
 
-<a asp-action="Create" class="btn btn-primary">Add New Todo</a>
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        transform: translateX(5px);
+        transition: all 0.2s ease;
+    }
+
+    .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .badge {
+        padding: 0.5em 0.75em;
+        font-size: 0.9em;
+        letter-spacing: 0.5px;
+    }
+</style>
+
+<!-- Add Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

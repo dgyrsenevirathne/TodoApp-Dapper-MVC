@@ -34,15 +34,17 @@ namespace ToDoapp.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 const string sql = @"
-                    INSERT INTO Todos (Title, Description, IsCompleted, CreatedAt) 
-                    VALUES (@Title, @Description, @IsCompleted, @CreatedAt)";
+                    INSERT INTO Todos (Title, Description, IsCompleted, CreatedAt, DueDate, Priority) 
+                    VALUES (@Title, @Description, @IsCompleted, @CreatedAt, @DueDate, @Priority)";
 
                 connection.Execute(sql, new
                 {
                     todo.Title,
                     todo.Description,
                     IsCompleted = false,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    todo.DueDate,
+                    todo.Priority
                 });
             }
         }
@@ -53,7 +55,7 @@ namespace ToDoapp.Repositories
             {
                 const string sql = @"
                     UPDATE Todos 
-                    SET Title = @Title, Description = @Description, IsCompleted = @IsCompleted
+                    SET Title = @Title, Description = @Description, IsCompleted = @IsCompleted, DueDate = @DueDate, Priority = @Priority
                     WHERE Id = @Id";
 
                 connection.Execute(sql, todo);

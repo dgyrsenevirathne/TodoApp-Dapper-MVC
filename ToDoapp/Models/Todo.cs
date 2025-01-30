@@ -15,5 +15,12 @@ namespace ToDoapp.Models
         public bool IsCompleted { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Due Date")]
+        public DateTime? DueDate { get; set; }
+
+        [RegularExpression("^(Low|Medium|High)$", ErrorMessage = "Invalid priority value")]
+        public string Priority { get; set; } = "Medium";
     }
 }

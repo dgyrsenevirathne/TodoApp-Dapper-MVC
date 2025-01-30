@@ -4,26 +4,118 @@
     ViewBag.Title = "Create New Todo";
 }
 
-<h2>Create New Todo</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Task</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+                        <div class="form-group mb-4">
+                            @Html.LabelFor(model => model.Title, new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                                @Html.TextBoxFor(model => model.Title, new
+                                    {
+                                        @class = "form-control form-control-lg",
+                                        placeholder = "Enter task title"
+                                    })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger small" })
+                        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title)
-        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        <div class="form-group mb-4">
+                            @Html.LabelFor(model => model.Description, new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                                @Html.TextAreaFor(model => model.Description, new
+                                    {
+                                        @class = "form-control form-control-lg",
+                                        rows = 4,
+                                        placeholder = "Describe your task..."
+                                    })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <!-- Additional Fields -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label fw-bold">Due Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                        <input type="date" class="form-control form-control-lg"
+                                               name="DueDate" id="DueDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label fw-bold">Priority</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-exclamation-circle"></i></span>
+                                        <select class="form-select form-control-lg" name="Priority" id="Priority">
+                                            <option value="Low">Low</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="High">High</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-end">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-save me-2"></i>Create Task
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-lg px-5">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description)
-        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
-        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-    </div>
+<style>
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Create</button>
-        <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
-    </div>
-}
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .input-group-text {
+        background: linear-gradient(45deg, #e9ecef, #f8f9fa);
+        border-right: none;
+    }
+
+    .form-control, .form-select {
+        border-left: none;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+    .form-control-lg {
+        font-size: 1.1rem;
+        padding: 1rem 1.5rem;
+    }
+</style>
+
+<!-- Add Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
