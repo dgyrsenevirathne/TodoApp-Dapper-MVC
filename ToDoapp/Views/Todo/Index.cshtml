@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Todo>
+
+<h2>Todo List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var todo in Model)
+        {
+            <tr>
+                <td>
+                    <form asp-action="ToggleComplete" method="post">
+                        <input type="hidden" name="id" value="@todo.Id" />
+                        <input type="checkbox" @(todo.IsCompleted ? "checked" : "")
+                               onchange="this.form.submit()" />
+                    </form>
+                </td>
+                <td>@todo.Title</td>
+                <td>@todo.Description</td>
+                <td>@todo.CreatedAt.ToString("g")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@todo.Id" class="btn btn-warning">Edit</a>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@todo.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Add New Todo</a>
